@@ -1,1 +1,45 @@
-adf
+## Enable mouse support
+set mouse
+
+## Enable syntax highlighting
+include "/usr/share/nano/*.nanorc"
+
+## Turn on line numbering
+set linenumbers
+
+## Enable soft wrapping of overlong lines
+set softwrap
+
+## Show helpful shortcuts at the bottom
+set quickblank
+
+## Enable auto-indenting for new lines
+set autoindent
+
+## Set tab size to 4
+set tabsize 4
+
+## Convert typed tabs to spaces
+set tabstospaces
+
+## Enable case-sensitive searches
+set casesensitive
+
+## Use this regex engine for searching
+set regexp
+
+## Backup files before saving, appending a ~ to their names
+set backup
+
+## Create auto backups, placing them in this directory:
+set backupdir "~/.nano/backups/"
+
+
+## Show the cursor position at all times
+set constantshow
+
+## Enable multiple buffers, if desired
+set multibuffer
+
+## Uncomment the following to cut from cursor to end of line
+# bind ^K cutrest main
