@@ -70,14 +70,30 @@ sudo pacman -S --needed aic94xx-firmware ast-firmware gnome-firmware linux-firmw
   gnuradio-osmosdr rtl-sdr soapysd cheese zoom ticktick task xorg-fonts-encodings xorg-server xorg-server-common xorg-server-xephyr xorg-server-xvfb \
   xorg-setxkbmap xorg-xauth xorg-xdpyinfo xorg-xinit xorg-xkbcomp xorg-xmessage xorg-xmodmap xorg-xprop xorg-xrandr xorg-xrdb xorg-xset xorg-xsetroot \
   xorg-xwayland xorgproto xsel clipcat python-pyperclip wl-clipboard xclip clamav clamtk clamav-unofficial-sigs metaspoliot kernalshark termshark wireshark-cli wireshark-qt \
-  bettercap bettercap-caplets ettercap ettercap-gtk  soapyrtlsdr r rstudio-desktop obs-studio reminna teams-for-linux python-openai-whisper --nonconfirm
+  bettercap bettercap-caplets ettercap ettercap-gtk  soapyrtlsdr r rstudio-desktop obs-studio reminna teams-for-linux python-openai-whisper \
+  alacritty base-devel bat brightnessctl bspwm clipcat dunst eza feh gvfs-mtp firefox geany git imagemagick jq jgmenu kitty libwebp maim \
+  mpc mpd mpv neovim ncmpcpp npm pamixer pacman-contrib papirus-icon-theme picom playerctl polybar polkit-gnome python-gobject redshift rofi rustup \
+  sxhkd tmux xclip xdg-user-dirs xdo xdotool xsettingsd xorg-xdpyinfo xorg-xkill xorg-xprop xorg-xrandr xorg-xsetroot xorg-xwininfo yazi zsh \
+  zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting ttf-inconsolata ttf-jetbrains-mono ttf-jetbrains-mono-nerd ttf-terminus-nerd \ 
+  ttf-ubuntu-mono-nerd ueberzugpp webp-pixbuf-loader paru tdrop eww-git i3lock-color simple-mtpfs gh0stzk-gtk-themes gh0stzk-cursor-qogirr \ 
+  gh0stzk-icons-beautyline gh0stzk-icons-candy gh0stzk-icons-catppuccin-mocha gh0stzk-icons-dracula gh0stzk-icons-glassy gh0stzk-icons-gruvbox-plus-dark \ 
+  gh0stzk-icons-hack gh0stzk-icons-luv gh0stzk-icons-sweet-rainbow gh0stzk-icons-tokyo-night gh0stzk-icons-vimix-white gh0stzk-icons-zafiro gh0stzk-icons-zafiro-purple --nonconfirm
   
 # Install yay
 git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si && cd .. && rm -rf /yay
+sudo pacman -Syu
 
-yay -S --noconfirm librewolf opera  
+
+yay -S --noconfirm librewolf opera mpd ncmpcpp paru yazi dunst zsh-auto-dunstify 
 
 # Install ollama 
 curl -fsSL https://ollama.com/install.sh | sh
 
 for model in nomic-embed-text deepscaler deepseek-r1:1.5b llama3.2 qwen2.5 qwen2.5-coder phi3 granite3.2:2b; do echo "ollama pull $model"; done
+
+curl -LO https://raw.githubusercontent.com/gh0stzk/dotfiles/master/RiceInstaller
+
+chmod +x RiceInstaller
+
+./RiceInstaller
+
