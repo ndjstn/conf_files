@@ -11,7 +11,7 @@ sudo pacman -Sy && sudo powerpill -Su && paru -Su
 
 # Install packages 
 sudo pacman -S --needed aic94xx-firmware ast-firmware gnome-firmware linux-firmware linux-firmware-bnx2x linux-firmware-qcom \ 
-  linux-firmware-qlogic linux-firmware-whence wd719x-firmware \
+  linux-firmware-qlogic linux-firmware-whence wd719x-firmware git wget curl top htop btop gtop \
   sdl2_ttf siji-ttf ttf-0xproto-nerd ttf-3270-nerd ttf-agave-nerd ttf-anonymouspro-nerd \
   ttf-arimo-nerd ttf-bigblueterminal-nerd ttf-bitstream-vera-mono-nerd ttf-cascadia-code-nerd \
   ttf-cascadia-mono-nerd ttf-cousine-nerd ttf-d2coding-nerd ttf-daddytime-mono-nerd ttf-dejavu \
