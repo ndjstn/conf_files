@@ -1,16 +1,42 @@
+#!/usr/bin/env bash
+set -euo pipefail
 
-# Chaotic aur
-sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com 
+# Error handler
+error_exit() {
+  echo "Error on line $1. Exiting."
+  exit 1
+}
+trap 'error_exit $LINENO' ERR
+
+echo "=== Starting installation process ==="
+
+# -----------------------------------------------------------------------------
+# Chaotic-AUR setup
+# -----------------------------------------------------------------------------
+echo "-> Importing Chaotic-AUR key..."
+sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
 sudo pacman-key --lsign-key 3056513887B78AEB
-sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
-sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
-echo -e "\n[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist" | sudo tee -a /etc/pacman.conf
-sudo pacman -Syu
-sudo pacman -Sy && sudo powerpill -Su && paru -Su
 
+echo "-> Installing Chaotic-AUR keyring and mirrorlist..."
+sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
+sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
 
-# Install packages 
-sudo pacman -S --needed aic94xx-firmware ast-firmware gnome-firmware linux-firmware linux-firmware-bnx2x linux-firmware-qcom \ 
+# Append Chaotic-AUR repo config if it doesn't already exist
+if ! grep -q "^\[chaotic-aur\]" /etc/pacman.conf; then
+  echo "-> Adding [chaotic-aur] repository to /etc/pacman.conf..."
+  echo -e "\n[chaotic-aur]\nInclude = /etc/pacman.d/chaotic-mirrorlist" | sudo tee -a /etc/pacman.conf
+fi
+
+echo "-> Updating system packages..."
+sudo pacman -Syu --noconfirm
+sudo pacman -Sy --noconfirm && sudo powerpill -Su --noconfirm && paru -Su --noconfirm
+
+# -----------------------------------------------------------------------------
+# Install packages via pacman
+# -----------------------------------------------------------------------------
+echo "-> Installing main packages..."
+sudo pacman -S --needed --noconfirm \
+  aic94xx-firmware ast-firmware gnome-firmware linux-firmware linux-firmware-bnx2x linux-firmware-qcom \
   linux-firmware-qlogic linux-firmware-whence wd719x-firmware git wget curl top htop btop gtop \
   sdl2_ttf siji-ttf ttf-0xproto-nerd ttf-3270-nerd ttf-agave-nerd ttf-anonymouspro-nerd \
   ttf-arimo-nerd ttf-bigblueterminal-nerd ttf-bitstream-vera-mono-nerd ttf-cascadia-code-nerd \
@@ -24,7 +50,7 @@ sudo pacman -S --needed aic94xx-firmware ast-firmware gnome-firmware linux-firmw
   ttf-nerd-fonts-symbols-common ttf-nerd-fonts-symbols-mono ttf-noto-nerd ttf-profont-nerd ttf-proggyclean-nerd \
   ttf-recursive-nerd ttf-roboto ttf-roboto-mono-nerd ttf-sharetech-mono-nerd ttf-sourcecodepro-nerd \
   ttf-space-mono-nerd ttf-terminus-nerd ttf-tinos-nerd ttf-ubuntu-mono-nerd ttf-ubuntu-nerd ttf-victor-mono-nerd \
-  ttf-zed-mono-nerd  bluedevil blueman blueprint-compiler bluez bluez-libs bluez-qt bluez-utils gnome-bluetooth-3.0 \
+  ttf-zed-mono-nerd bluedevil blueman blueprint-compiler bluez bluez-libs bluez-qt bluez-utils gnome-bluetooth-3.0 \
   ttf-bigblueterminal-nerd qemu-audio-alsa qemu-audio-dbus qemu-audio-jack qemu-audio-oss qemu-audio-pa qemu-audio-pipewire \
   qemu-audio-sdl qemu-audio-spice qemu-base qemu-block-curl qemu-block-dmg qemu-block-gluster qemu-block-iscsi qemu-block-nfs \
   qemu-block-ssh qemu-chardev-baum qemu-chardev-spice qemu-common qemu-desktop qemu-docs qemu-emulators-full qemu-full \
@@ -37,8 +63,8 @@ sudo pacman -S --needed aic94xx-firmware ast-firmware gnome-firmware linux-firmw
   qemu-system-s390x-firmware qemu-system-sh4 qemu-system-sparc qemu-system-sparc-firmware qemu-system-tricore qemu-system-x86 \
   qemu-system-x86-firmware qemu-system-xtensa qemu-tests qemu-tools qemu-ui-curses qemu-ui-dbus qemu-ui-egl-headless qemu-ui-gtk qemu-ui-opengl \
   qemu-ui-sdl qemu-ui-spice-app qemu-ui-spice-core qemu-user qemu-vhost-user-gpu qemu-vmsr-helper \
-  libvirt libvirt-glib libvirt-python python-virtualenv qemu-hw-display-virtio-gpu qemu-hw-display-virtio-gpu-gl 
-  qemu-hw-display-virtio-gpu-pci qemu-hw-display-virtio-gpu-pci-gl qemu-hw-display-virtio-vga qemu-hw-display-virtio-vga-gl 
+  libvirt libvirt-glib libvirt-python python-virtualenv qemu-hw-display-virtio-gpu qemu-hw-display-virtio-gpu-gl \
+  qemu-hw-display-virtio-gpu-pci qemu-hw-display-virtio-gpu-pci-gl qemu-hw-display-virtio-vga qemu-hw-display-virtio-vga-gl \
   qemu-hw-s390x-virtio-gpu-ccw qt6-virtualkeyboard virt-install virt-manager virtiofsd libvirt libvirt-glib libvirt-python python-virtualenv virt-install virt-manager virtiofsd \
   gst-python ipython libvirt-python python python-annotated-types python-appdirs python-argcomplete python-asttokens python-attrs python-autocommand python-babel python-bcrypt \
   python-beautifulsoup4 python-black python-blinker python-build python-cachecontrol python-cachetools python-cachy python-cairo python-certifi \
@@ -56,7 +82,7 @@ sudo pacman -S --needed aic94xx-firmware ast-firmware gnome-firmware linux-firmw
   python-networkx python-numpy python-oauth2client python-orjson python-packaging python-pandas python-paramiko python-parso python-pathspec \
   python-pbs-installer python-pexpect python-pillow python-pip python-pip-system-certs python-pipx python-pkginfo python-platformdirs python-playwright \
   python-pluggy python-poetry python-poetry-core python-poetry-plugin-export python-pooch python-prompt_toolkit python-protobuf python-psutil \
-  python-ptyprocess python-pure-eval python-pyasn1 python-pyasn1-modules python-pyaudio python-pycodestyle python-pycparser python-pycups \
+  python-pure-eval python-pyasn1 python-pyasn1-modules python-pyaudio python-pycodestyle python-pycparser python-pycups \
   python-pydantic python-pydantic-core python-pyee python-pyflakes python-pygccxml python-pygdbmi python-pygments python-pynacl python-pyparsing \
   python-pyperclip python-pyproject-hooks python-pyqt5 python-pyqt5-sip python-pyqt5-webengine python-pyqt6 python-pyqt6-sip python-pyqt6-webengine \
   python-pyqtgraph python-pyserial python-pysocks python-pytest python-pytz python-pyxdg python-pyzmq python-rapidfuzz python-referencing python-requests \
@@ -65,7 +91,7 @@ sudo pacman -S --needed aic94xx-firmware ast-firmware gnome-firmware linux-firmw
   python-tomlkit python-tqdm python-traitlets python-trove-classifiers python-typing_extensions python-uc-micro-py python-ujson python-urllib3 python-userpath \
   python-virtualenv python-waitress python-watchdog python-wcwidth python-webencodings python-websockets python-werkzeug python-wheel python-wrapt python-xmltodict \
   python-yaml python-zipp python-zope-event python-zope-interface python-zstandard python2 python2-debug python312 python312-debug uwsgi-plugin-python\
-  cups cups-filters cups-pk-helper libcups libcupsfilters obsidian polybar i3 bspwm kitty alacritty ghostty wezterm glow ghostwriter networkmanager \ 
+  cups cups-filters cups-pk-helper libcups libcupsfilters obsidian polybar i3 bspwm kitty alacritty ghostty wezterm glow ghostwriter networkmanager \
   firefox vivaldi vscodium ostree tree tree-sitter tree-sitter-c tree-sitter-lua tree-sitter-markdown tree-sitter-query tree-sitter-vim tree-sitter-vimdoc \
   gnuradio-osmosdr rtl-sdr soapysd cheese zoom ticktick task xorg-fonts-encodings xorg-server xorg-server-common xorg-server-xephyr xorg-server-xvfb \
   xorg-setxkbmap xorg-xauth xorg-xdpyinfo xorg-xinit xorg-xkbcomp xorg-xmessage xorg-xmodmap xorg-xprop xorg-xrandr xorg-xrdb xorg-xset xorg-xsetroot \
@@ -74,26 +100,62 @@ sudo pacman -S --needed aic94xx-firmware ast-firmware gnome-firmware linux-firmw
   alacritty base-devel bat brightnessctl bspwm clipcat dunst eza feh gvfs-mtp firefox geany git imagemagick jq jgmenu kitty libwebp maim \
   mpc mpd mpv neovim ncmpcpp npm pamixer pacman-contrib papirus-icon-theme picom playerctl polybar polkit-gnome python-gobject redshift rofi rustup \
   sxhkd tmux xclip xdg-user-dirs xdo xdotool xsettingsd xorg-xdpyinfo xorg-xkill xorg-xprop xorg-xrandr xorg-xsetroot xorg-xwininfo yazi zsh \
-  zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting ttf-inconsolata ttf-jetbrains-mono ttf-jetbrains-mono-nerd ttf-terminus-nerd \ 
-  ttf-ubuntu-mono-nerd ueberzugpp webp-pixbuf-loader paru tdrop eww-git i3lock-color simple-mtpfs gh0stzk-gtk-themes gh0stzk-cursor-qogirr \ 
-  gh0stzk-icons-beautyline gh0stzk-icons-candy gh0stzk-icons-catppuccin-mocha gh0stzk-icons-dracula gh0stzk-icons-glassy gh0stzk-icons-gruvbox-plus-dark \ 
-  gh0stzk-icons-hack gh0stzk-icons-luv gh0stzk-icons-sweet-rainbow gh0stzk-icons-tokyo-night gh0stzk-icons-vimix-white gh0stzk-icons-zafiro gh0stzk-icons-zafiro-purple --nonconfirm
-  
-# Install yay
-git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si && cd .. && rm -rf /yay
-sudo pacman -Syu
+  zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting ttf-inconsolata ttf-jetbrains-mono ttf-jetbrains-mono-nerd ttf-terminus-nerd \
+  ttf-ubuntu-mono-nerd ueberzugpp webp-pixbuf-loader paru tdrop eww-git i3lock-color simple-mtpfs gh0stzk-gtk-themes gh0stzk-cursor-qogirr \
+  gh0stzk-icons-beautyline gh0stzk-icons-candy gh0stzk-icons-catppuccin-mocha gh0stzk-icons-dracula gh0stzk-icons-glassy gh0stzk-icons-gruvbox-plus-dark \
+  gh0stzk-icons-hack gh0stzk-icons-luv gh0stzk-icons-sweet-rainbow gh0stzk-icons-tokyo-night gh0stzk-icons-vimix-white gh0stzk-icons-zafiro gh0stzk-icons-zafiro-purple
 
+# -----------------------------------------------------------------------------
+# Install X11/Wayland packages
+# -----------------------------------------------------------------------------
+echo "-> Installing X11 packages..."
+sudo pacman -S --needed --noconfirm xorg-server xorg-server-common xorg-xinit xorg-xrandr xorg-xwayland
 
-yay -S --noconfirm librewolf opera mpd ncmpcpp paru yazi dunst zsh-auto-dunstify 
+echo "-> Installing additional Wayland packages..."
+sudo pacman -S --needed --noconfirm wayland weston
 
-# Install ollama 
+# -----------------------------------------------------------------------------
+# Install AUR helper (yay)
+# -----------------------------------------------------------------------------
+echo "-> Installing AUR helper (yay)..."
+if ! command -v yay &>/dev/null; then
+  git clone https://aur.archlinux.org/yay.git
+  cd yay
+  makepkg -si --noconfirm
+  cd ..
+  rm -rf yay
+else
+  echo "yay is already installed."
+fi
+
+# -----------------------------------------------------------------------------
+# Install additional AUR packages
+# -----------------------------------------------------------------------------
+echo "-> Installing additional AUR packages..."
+yay -S --noconfirm librewolf opera mpd ncmpcpp paru yazi dunst zsh-auto-dunstify
+
+# -----------------------------------------------------------------------------
+# Install Ollama
+# -----------------------------------------------------------------------------
+echo "-> Installing ollama..."
 curl -fsSL https://ollama.com/install.sh | sh
 
-for model in nomic-embed-text deepscaler deepseek-r1:1.5b llama3.2 qwen2.5 qwen2.5-coder phi3 granite3.2:2b; do echo "ollama pull $model"; done
+echo "-> Pulling ollama models..."
+for model in nomic-embed-text deepscaler deepseek-r1:1.5b llama3.2 qwen2.5 qwen2.5-coder phi3 granite3.2:2b; do
+  echo "Pulling model: $model"
+  if ! ollama pull "$model"; then
+    echo "Warning: Failed to pull model: $model"
+  fi
+done
 
+# -----------------------------------------------------------------------------
+# Download and run RiceInstaller
+# -----------------------------------------------------------------------------
+echo "-> Downloading RiceInstaller..."
 curl -LO https://raw.githubusercontent.com/gh0stzk/dotfiles/master/RiceInstaller
-
 chmod +x RiceInstaller
 
+echo "-> Running RiceInstaller..."
 ./RiceInstaller
 
+echo "=== Installation process completed successfully ==="
