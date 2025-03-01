@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+sh#!/usr/bin/env bash
 set -euo pipefail
 
 # Error handler
@@ -115,7 +115,44 @@ sudo pacman -S --needed --noconfirm \
   mpc mpd mpv neovim ncmpcpp npm pamixer pacman-contrib papirus-icon-theme picom playerctl polybar polkit-gnome python-gobject redshift rofi rustup \
   sxhkd tmux xclip xdg-user-dirs xdo xdotool xsettingsd xorg-xdpyinfo xorg-xkill xorg-xprop xorg-xrandr xorg-xsetroot xorg-xwininfo yazi zsh \
   zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting ttf-inconsolata ttf-jetbrains-mono ttf-jetbrains-mono-nerd ttf-terminus-nerd \
-  ttf-ubuntu-mono-nerd ueberzugpp webp-pixbuf-loader paru tdrop eww-git i3lock-color simple-mtpfs 
+  ttf-ubuntu-mono-nerd ueberzugpp webp-pixbuf-loader paru tdrop eww-git i3lock-color simple-mtpfs openssh rsync openmpi slurm nfs-utils base-devel gcc ntp \
+  fail2ban rkhunter chkrootkit lynis apparmor audit scala ruby go zig jdk-openjkd mpich torque corosync pacemaker etcd haproxy ansible salt sdh pdsh cssh \
+  wireshark john hydra sqlmap wifite netcat-openbsd nikto burpsuite hashcat tcpdump gobuster recon-ng openvas masscan wpscan commix \
+  firewalld lynis tripwire ossec-hids snort suricata zeek modsecurity logwatch aide openscap osquery syslog-ng tlp powertop \ 
+  cpupower thermald laptop-mode-tools preload tuned i7z earlyoom clang cmake subversion mercurial emacs fldigi wsjt-x direwolf hamlib \
+  gpredict gqrx cubicsdr qssttv xastir multimon-ng chrip-next quisk cqrlog minimodoem welle.io wsprdaemon soapy-sdr sdrangel rigctld \
+  gnuradio gpredict satnogs-client gr-osmosdr soapy-sdr kalibrateee-rtl python-epphem pyorbital gnss-sdr gr-satellites satnogs-tools \
+  wsprdaemon pysat satpy skyfiled gis grass marble osm2pgsql viking gnome-maps apertium omegat poedit virtaal espeak-ng festival \
+  mbrola flite rhvoice pico2wave tesseract ocropus cuneiform gimagereader texlive-most texmaker kile pandoc sigil fbreader zathura libreoffice-fresh \ 
+  gedit abiwork lyx joplin inkscape gimp ghostwriter ghostscript evince xournalpp librecad krita geany emacas scribus calibre-web pdrarranger jabref zim \
+  darktable rawtherapee digikam shotwell imagemagick exiftool geeqie nomacs kdenlive shotcut handbrake handbrake-cli avidemux krita blender synfig xviewer \
+  android-tools scrcpy libmtp gvfs-mtp mtpfs libimobiledevice ifuse ideviceinstaller usbmuxd idevicebackup idevicediagnostics \ 
+  libplist gvfs-afc gnome-shell-extension-gsconnect openmtp obexftp obexpushd gnome-bluetooth qutebrowser dillow netsurf lync elinks midori surf \
+  python-scrapy python-lxml python-requests nodejs-cheerio python-selenium proxychains-ng privoxy openvpn openconnect wireguard-tools \
+  keepassxc python-mechanize bitcoin bitcoin-qqt electrum litcoin monero zcash dash dogecoin solidity truffle substrate \
+  gnuhealth openemr openmrs librehealth-dhr orthanc dcm4che 3d-slicer invesalius medinria oscar postgressql msysql python-numy r-base jitsi nextcloud \ 
+  pidgin element-desktop weechat irssi hexchat linphone ekiga asterisk freeswtich twinkle qtox signal-cli mattermost-desktop mumble \
+  zulip-desktop poezio psi gajim aircrack-ng reaver wifite kismet hcxdumptool tcpdump airgeddon fluxion bully pixiewps pyrit scapy \
+  iw mdk3 mdk4 dsniff cheese guvcview v4l-utils motion gnucash kmymoney thunderbird evolution zotero nextcloud ganttproject \
+  scribus ledger-cli redmine zim batman-adv batctl olsrd olsrd-plugins babeld cjdns frr hostapd iw wpa_supplicant netctl \
+  wireguard-tools tinc zerotier-one nodewatcher gnunet serf iproute2 gnome-online-accounts evolution thunderbird gnome-calendar \
+  gnome-contacts nextcloud-client owncloud-client kio-gdrive rclone davmail icloudpd keepassxc gnome-todo korganizer google-drive-ocamlfuse kmail \
+  octave sagemath maxima gnuplot python-sympy python-scipy qgis grass freecad librecad goegebra scilab openfoam paraview gmsh jmol avogadro \
+  kicad qcad fritzing salome elmerfem openfoam code-aster su2 calculix scilab gephi weka sqlitebrowser julia python-nltk \
+  python-nltk python-gensim python-textblob python-scikit-learn python-stanza python-transformers mallet tika-app \
+  python-enchant python-chardet python-rouge python-sumy python-corextopic python-sentence-transformers python-wordcloud python-flair \
+  python-bert-extractive-summarizer freemind freeplane vyms docear labryinth compendium plantuml dia umbrello argouml modelio papyrus umlet bouml \
+  drawio libreoffice-draw inkscape pencil-project yakindu-statechart-tools eclipse-uml2-tools graphviz violet-uml-editor mermaid-cli openmodelsphere \
+  uml-designer umlgraph ganttproject taskjuggler kanboard openproject libreplan collabtive dotproject tuleap odoo trac phabricator \ 
+  leantime wekan zentao taskcoach planner gitea gitlab mattermost rocket-chat zulip etherpad-lit jenkins code-server tmate \
+  tagspaces tmsu tracker recoll dolphin thunar pcmanfm double-commander ranger nnn mc kursader fslint file-roller mucommander spacefm xfe caja pcmanfm-qt \
+  simplescreenrecorder vokoscreenNG  kazam recordmydesktop screenkey key-mon streamlink gromit-mpx xosd kooha shotcut byzanz \
+  transmission-gt qbittorrent deluge rtorrent ctorrent aria2 ipfs retroshare amule mldonkey onionshare tribler webtorrent-cli peerflix \
+  libgen-cli scihub-py frostwire gnunet lbry-app telegram torbrowser-launcher torsocks nyx obfs4proxy meek onionbalance  \ 
+  tor-geoipdb onioncat privoxy ricochet onionshare torify tor-resolve torsocks-ng torbrowser-data tortray tor-monitor torgraph torconf \ 
+  
+
+
 
 # -----------------------------------------------------------------------------
 # Install X11/Wayland packages
