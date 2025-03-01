@@ -37,7 +37,7 @@ sudo pacman -Sy --noconfirm && sudo powerpill -Su --noconfirm && paru -Su --noco
 echo "-> Installing main packages..."
 sudo pacman -S --needed --noconfirm \
   aic94xx-firmware ast-firmware gnome-firmware linux-firmware linux-firmware-bnx2x linux-firmware-qcom \
-  linux-firmware-qlogic linux-firmware-whence wd719x-firmware git wget curl Fsiji
+  linux-firmware-qlogic linux-firmware-whence wd719x-firmware git wget curl \
   htop btop gtop \
   sdl2_ttf  ttf-0xproto-nerd ttf-3270-nerd ttf-agave-nerd ttf-anonymouspro-nerd \
   ttf-arimo-nerd ttf-bigblueterminal-nerd ttf-bitstream-vera-mono-nerd ttf-cascadia-code-nerd \
