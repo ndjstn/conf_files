@@ -32,13 +32,26 @@ sudo pacman -Syu --noconfirm
 sudo pacman -Sy --noconfirm && sudo powerpill -Su --noconfirm && paru -Su --noconfirm
 
 # -----------------------------------------------------------------------------
+# Install AUR helper (yay)
+# -----------------------------------------------------------------------------
+echo "-> Installing AUR helper (yay)..."
+if ! command -v yay &>/dev/null; then
+  git clone https://aur.archlinux.org/yay.git
+  cd yay
+  makepkg -si --noconfirm
+  cd ..
+  rm -rf yay
+else
+  echo "yay is already installed."
+fi
+
+# -----------------------------------------------------------------------------
 # Install packages via pacman
 # -----------------------------------------------------------------------------
 echo "-> Installing main packages..."
 sudo pacman -S --needed --noconfirm \
   aic94xx-firmware ast-firmware gnome-firmware linux-firmware linux-firmware-bnx2x linux-firmware-qcom \
-  linux-firmware-qlogic linux-firmware-whence wd719x-firmware git wget curl \
-  htop btop gtop \
+  linux-firmware-qlogic linux-firmware-whence wd719x-firmware git wget curl htop btop gtop \
   sdl2_ttf  ttf-0xproto-nerd ttf-3270-nerd ttf-agave-nerd ttf-anonymouspro-nerd \
   ttf-arimo-nerd ttf-bigblueterminal-nerd ttf-bitstream-vera-mono-nerd ttf-cascadia-code-nerd \
   ttf-cascadia-mono-nerd ttf-cousine-nerd ttf-d2coding-nerd ttf-daddytime-mono-nerd ttf-dejavu \
@@ -80,8 +93,8 @@ sudo pacman -S --needed --noconfirm \
   python-jsonschema python-jsonschema-specifications python-keyring python-kiwisolver python-lark-parser python-legacy-cgi \
   python-libtmux python-lockfile python-lsp-black python-lsp-jsonrpc python-lsp-server python-lxml python-mako python-markdown python-markdown-it-py \
   python-markupsafe python-matplotlib python-matplotlib-inline python-mccabe python-mdurl python-more-itertools python-msgpack python-mypy_extensions \
-  python-networkx python-numpy python-oauth2client python-orjsFon python-packaging python-pandas python-paramiko python-parso python-pathspec \
-  python-pbs-installer python-pexpect python-pillow python-pip python-pip-system-certs python-pipx python-pkginfo python-platformdirs python-playwright \
+  python-networkx python-numpy python-oauth2client python-packaging python-pandas python-paramiko python-parso python-pathspec \
+  python-pbs-installer python-pexpect python-pillow python-pip  python-pipx python-pkginfo python-platformdirs python-playwright \
   python-pluggy python-poetry python-poetry-core python-poetry-plugin-export python-pooch python-prompt_toolkit python-protobuf python-psutil \
   python-pure-eval python-pyasn1 python-pyasn1-modules python-pyaudio python-pycodestyle python-pycparser python-pycups \
   python-pydantic python-pydantic-core python-pyee python-pyflakes python-pygccxml python-pygdbmi python-pygments python-pynacl python-pyparsing \
@@ -113,19 +126,7 @@ sudo pacman -S --needed --noconfirm xorg-server xorg-server-common xorg-xinit xo
 echo "-> Installing additional Wayland packages..."
 sudo pacman -S --needed --noconfirm wayland weston
 
-# -----------------------------------------------------------------------------
-# Install AUR helper (yay)
-# -----------------------------------------------------------------------------
-echo "-> Installing AUR helper (yay)..."
-if ! command -v yay &>/dev/null; then
-  git clone https://aur.archlinux.org/yay.git
-  cd yay
-  makepkg -si --noconfirm
-  cd ..
-  rm -rf yay
-else
-  echo "yay is already installed."
-fi
+
 
 # -----------------------------------------------------------------------------
 # Install additional AUR packages
